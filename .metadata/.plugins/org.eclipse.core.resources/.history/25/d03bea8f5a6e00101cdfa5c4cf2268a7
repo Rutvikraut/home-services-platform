@@ -1,8 +1,0 @@
-package com.homeservices.entities;
-
-import jakarta.persistence.Table;
-
-@Table(name = "Order")
-public class Order {
-	
-}

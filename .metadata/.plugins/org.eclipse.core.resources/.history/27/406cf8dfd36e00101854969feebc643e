@@ -1,5 +1,0 @@
-package com.homeservices.dao;
-
-public interface OrderRepository {
-
-}

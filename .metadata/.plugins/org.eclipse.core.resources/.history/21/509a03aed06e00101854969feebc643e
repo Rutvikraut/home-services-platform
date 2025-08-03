@@ -1,5 +1,0 @@
-package com.homeservices.service.order;
-
-public interface OrderService {
-
-}
