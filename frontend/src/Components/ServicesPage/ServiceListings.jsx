@@ -1,7 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import ServiceProfileCard from './Card/ServiceProfileCard'
-import { Button } from 'flowbite-react'
+import { Button, createTheme, Pagination } from 'flowbite-react'
 
+const theme = createTheme(
+  {
+  "base": "",
+  "layout": {
+    "table": {
+      "base": "text-sm text-black",
+      "span": "font-semibold text-gray-900"
+    }
+  },
+  "pages": {
+    "base": "xs:mt-0 mt-2 inline-flex items-center -space-x-px",
+    "showIcon": "inline-flex",
+    "previous": {
+      "base": "ml-0 rounded-l-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-black",
+      "icon": "h-5 w-5"
+    },
+    "next": {
+      "base": "rounded-r-lg border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-500 cursor-pointer",
+      "icon": "h-5 w-5"
+    },
+    "selector": {
+      "base": "w-12 border border-gray-300 bg-white py-2 leading-tight text-gray-500 cursor-pointer",
+      "active": "bg-secondary text-white",
+      "disabled": "cursor-not-allowed opacity-50"
+    }
+  }
+}
+)
 const ServiceListings = () => {
   const [providers, setProviders] = useState([])
   const [currentPage,setCurrentPage]= useState(1)
@@ -21,10 +49,12 @@ const ServiceListings = () => {
     ];
     setProviders(data);
   }, []);
-  const totalPages = Math.ceil(providers.length / providersPerPage)
+  const totalPages = Math.max(1, Math.ceil(providers.length / providersPerPage));
   const indexOfLast = currentPage*providersPerPage
   const indexOfFirst = indexOfLast - providersPerPage
   const currentProviders = providers.slice(indexOfFirst,indexOfLast)
+  const onPageChange = (page) => setCurrentPage(page);
+
   return (
     <div className='flex flex-col mb-5'>
     <div className="flex flex-col items-center gap-6 px-4 overflow-y-auto no-scrollbar whitespace-nowrap mb-5">
@@ -33,15 +63,9 @@ const ServiceListings = () => {
       ))}
       
     </div>
-      <div className='flex gap-2 w-full justify-center'>
-        {
-        Array.from({length:totalPages},(_,page)=>(
-          <Button onClick={()=> setCurrentPage(page+1)} className='py-4 w-2 cursor-pointer bg-transparent border text-primary hover:bg-secondary hover:text-white'>
-            {page+1}
-        </Button>
-        ))
-      }
-      </div>
+      <div className="flex overflow-x-auto sm:justify-center">
+      <Pagination theme={theme} currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+    </div>
     </div>
   )
 }
