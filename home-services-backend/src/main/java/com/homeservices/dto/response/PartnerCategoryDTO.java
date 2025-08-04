@@ -5,8 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PartnerServiceDTO {
+public class PartnerCategoryDTO {
+
 	private String name;
 	private String description;
-	private double price;
+
 }

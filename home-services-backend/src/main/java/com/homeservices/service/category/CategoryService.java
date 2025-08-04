@@ -3,24 +3,25 @@ package com.homeservices.service.category;
 import java.util.List;
 
 import com.homeservices.dto.request.CategoryRequestDto;
-import com.homeservices.dto.request.ServiceRequestDto;
-import com.homeservices.dto.response.CategoryResponse;
+import com.homeservices.dto.request.ProvidedServiceRequestDto;
+import com.homeservices.dto.response.ApiResponse;
+import com.homeservices.dto.response.CategoryResponseDTO;
 import com.homeservices.entities.Category;
-import com.homeservices.entities.Service;
+import com.homeservices.entities.ProvidedService;
 
 public interface CategoryService {
 
-	List<Category> getAllCategories();
+	List<CategoryResponseDTO> getAllCategories();
 
 	//todo
-	String addNewCategory(CategoryRequestDto dto);
+	ApiResponse addNewCategory(CategoryRequestDto dto);
 
-	CategoryRequestDto getCategoryById();
-
-	//todo
-	String updateCategory(Long categoryId, CategoryRequestDto dto);
+	CategoryResponseDTO getCategoryById(Long categoryId);
 
 	//todo
-	String deleteCatgory(Long categoryId);
+	ApiResponse updateCategory(Long categoryId, CategoryRequestDto dto);
+
+	//todo
+	ApiResponse deleteCatgory(Long categoryId);
 	
 }

@@ -1,10 +1,11 @@
-package com.homeservices.dto.request;
+package com.homeservices.dto.response;
 
 import lombok.Data;
 
 @Data
-public class AddressRequestDto {
-	
+public class AddressResponseDto {
+
+
 	private String address;
 	private String pincode;
 	private String city;

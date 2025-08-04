@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PartnerServiceDTO {
+public class ProvidedServiceResponseDTO {	
+	private int id;
 	private String name;
 	private String description;
 	private double price;

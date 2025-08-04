@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.homeservices.dto.request.PartnerRequestDTO;
+import com.homeservices.dto.request.UpdatePartnerDTO;
 import com.homeservices.dto.request.VerifyPartnerDTO;
 import com.homeservices.service.partner.PartnerService;
 
@@ -40,7 +41,7 @@ public class PartnerController {
 
 //	PUT    /api/partners/{id}                    → Update partner profile
 	@PutMapping("/{partnerId}")
-	public ResponseEntity<?> updatePartner(@PathVariable Long partnerId, @RequestBody PartnerRequestDTO partnerDTO) {
+	public ResponseEntity<?> updatePartner(@PathVariable Long partnerId, @RequestBody UpdatePartnerDTO partnerDTO) {
 		return ResponseEntity.ok(partnerService.updatePartner(partnerId, partnerDTO));
 	}
 
@@ -71,7 +72,7 @@ public class PartnerController {
 
 //	PUT    /api/partners/{id}/verify             → Mark partner as verified
 	@PutMapping("/{partnerId}/verify")
-	public ResponseEntity<?> verifyPartner(@PathVariable Long partnerId, @RequestBody VerifyPartnerDTO partnerDTO) {
-		return ResponseEntity.ok(partnerService.verifyPartner(partnerId, partnerDTO));
+	public ResponseEntity<?> verifyPartner(@PathVariable Long partnerId) {
+		return ResponseEntity.ok(partnerService.verifyPartner(partnerId));
 	}
 }

@@ -19,4 +19,9 @@ public interface OrderService {
 	ApiResponse updateOrderStatus(Long orderId);
 
 	ApiResponse cancelOrderById(Long orderId);
+
+	List<Order> getAllOrders();
+
+	List<Order> getOrdersByStatus(String status);
+	
 }

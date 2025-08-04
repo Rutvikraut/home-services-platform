@@ -7,5 +7,7 @@ import com.homeservices.entities.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>{
+
 	
+	boolean existsByName(String name);
 }

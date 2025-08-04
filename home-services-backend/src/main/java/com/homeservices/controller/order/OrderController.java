@@ -34,6 +34,15 @@ public class OrderController {
 	public ResponseEntity<ApiResponse> createOrder(@RequestBody OrderRequestDto dto,@PathVariable Long userId,@PathVariable Long serviceId){
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(dto,userId,serviceId));
 	}
+	@GetMapping
+	public ResponseEntity<List<Order>> getAllOrders(){
+		return ResponseEntity.ok(orderService.getAllOrders());
+	}
+	
+	@GetMapping("/status/{status}")
+	public ResponseEntity<List<Order>> getOrdersByStatus(@PathVariable String status){
+		return ResponseEntity.ok(orderService.getOrdersByStatus(status));
+	}
 	
 //	GET    /api/orders/{id}                      → Get order by ID
 	@GetMapping("/{orderId}")

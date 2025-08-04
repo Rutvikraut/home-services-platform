@@ -19,6 +19,7 @@ import com.homeservices.dto.response.ApiResponse;
 import com.homeservices.entities.Order;
 import com.homeservices.entities.Partner;
 import com.homeservices.entities.User;
+import com.homeservices.entities.ProvidedService;
 import com.homeservices.utils.OrderStatus;
 
 
@@ -38,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public ApiResponse createOrder(OrderRequestDto dto,Long userId, Long serviceId) {
-		com.homeservices.entities.Service service =serviceRepo.findById(serviceId).orElseThrow(()-> new ResourceNotFoundException("Service Not Found"));
+		ProvidedService service =serviceRepo.findById(serviceId).orElseThrow(()-> new ResourceNotFoundException("Service Not Found"));
 		User user =userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
 		Order order = modelMapper.map(dto, Order.class);
 		order.setTotalCost(service.getPrice());		
@@ -103,6 +104,26 @@ public class OrderServiceImpl implements OrderService {
 		order.setOrderStatus(OrderStatus.CANCELLED);
 		orderRepo.save(order);
 		return new ApiResponse("Order Cancelled");
+	}
+	
+
+	@Override
+	public List<Order> getAllOrders() {
+		List<Order> orders =orderRepo.findAll();
+		if(orders.isEmpty()) {
+			throw new ResourceNotFoundException("Orders Not Found");
+		}
+		return orders;
+	}
+
+	@Override
+	public List<Order> getOrdersByStatus(String status) {
+		OrderStatus orderStatus = OrderStatus.valueOf(status.toUpperCase());
+		List<Order> orders=orderRepo.findByOrderStatus(orderStatus);
+		if(orders.isEmpty()) {
+			throw new ResourceNotFoundException("Orders Not Found By Status : "+status);
+		}
+		return orders;
 	}
 	
 }

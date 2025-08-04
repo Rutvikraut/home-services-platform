@@ -1,26 +1,21 @@
 package com.homeservices.service.user;
 
-import org.springframework.http.ResponseEntity;
-
-import com.homeservices.dto.request.AddressRequestDto;
+import com.homeservices.dto.request.UpdateUserDto;
 import com.homeservices.dto.request.UserLoginDto;
 import com.homeservices.dto.request.UserRequestDto;
-import com.homeservices.entities.User;
+import com.homeservices.dto.response.ApiResponse;
+import com.homeservices.dto.response.UserResponseDto;
 
 public interface UserService {
 
-     String createUser(UserRequestDto dto);
-     String userLogin(UserLoginDto dto);
-	
-	Object updateUser(Long id);
-	Object deleteUser(Long id);
-	Object getUserById(Long id);
-	Object getAddresses(Long id);
-	Object addAddress(Long id, AddressRequestDto dto);
-	Object updateAddress(Long id);
-	Object deleteAddressById(Long id);
-	
+	UserResponseDto registerUser(UserRequestDto dto);
 
-	
+	UserResponseDto getUserById(Long id);
+
+	UserResponseDto updateUser(Long id, UpdateUserDto dto);
+
+	ApiResponse deleteUser(Long id);
+
+	UserResponseDto userLogin(UserLoginDto dto);
 
 }
