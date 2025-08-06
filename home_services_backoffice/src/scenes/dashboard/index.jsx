@@ -1,8 +1,8 @@
 import { Box, Grid, Card, CardContent, Typography } from "@mui/material";
 import Header from "../../components/Header";
-import MyLine from "../../components/LineChart";
-import MyBar from "../../components/BarChart";
+import { mockPieData } from "../../data/mockData";
 import MyPie from "../../components/PieChart";
+import { tokens } from "../../theme";
 import ScreenSearchDesktopOutlinedIcon from "@mui/icons-material/ScreenSearchDesktopOutlined";
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
@@ -53,94 +53,140 @@ const StatCard = ({ label, value, icon, iconBg, gap = 10 }) => (
   </Card>
 );
 
+const statCards = [
+  {
+    label: "Visits",
+    value: "65,122",
+    icon: <ScreenSearchDesktopOutlinedIcon />,
+    iconBg: "#1976d2",
+  },
+  {
+    label: "Total Revenue",
+    value: "Rs 45,000",
+    icon: <CurrencyRupeeOutlinedIcon />,
+    iconBg: "#1976d2",
+    gap: 7,
+  },
+  {
+    label: "Partners",
+    value: "2,378",
+    icon: <PeopleAltOutlinedIcon />,
+    iconBg: "#1976d2",
+    gap: 12,
+  },
+  {
+    label: "Pending Requests",
+    value: "112",
+    icon: <PendingActionsOutlinedIcon />,
+    iconBg: "#f57c00",
+    gap: 14,
+  },
+];
+
 const Dashboard = () => {
   return (
     <Box m="20px">
       {/* Header */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={4}
+      >
         <Header title="DASHBOARD" subtitle="Welcome to admin dashboard" />
       </Box>
 
-      {/* Top Stats Cards */}
       <Grid container spacing={4}>
-        <Grid item xs={12} md={4}>
-          <StatCard
-            label="Visits"
-            value="65,122"
-            icon={<ScreenSearchDesktopOutlinedIcon />}
-            iconBg="#1976d2"
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <StatCard
-            label="Total Revenue"
-            value="Rs 45,000"
-            icon={<CurrencyRupeeOutlinedIcon />}
-            iconBg="#1976d2"
-            gap={7}
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <StatCard
-            label="Partners"
-            value="2,378"
-            icon={<PeopleAltOutlinedIcon />}
-            iconBg="#1976d2"
-            gap={12}
-          />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <StatCard
-            label="Pending Requests"
-            value="112"
-            icon={<PendingActionsOutlinedIcon />}
-            iconBg="#f57c00"
-            gap={14}
-          />
-        </Grid>
+        {statCards.map((card, index) => (
+          <Grid item xs={12} md={4} key={index}>
+            <StatCard {...card} />
+          </Grid>
+        ))}
       </Grid>
 
       {/* Chart Section */}
-      <Box sx={{ width: "100%", mt: 4 }}>
-        <Card
-          sx={{
-            backgroundColor: "transparent",
-            border: "1.5px solid rgba(0, 0, 0, 0.15)",
-            borderRadius: "12px",
-          }}
-        >
-          <CardContent>
-            <Typography variant="h6" mb={2}>
-              Analytics Overview
+      {/* Chart + Insights Section */}
+      <Box sx={{ display: "flex", gap: 4, mt: 4 }}>
+        {/* Pie Chart */}
+        <Box sx={{ flex: 2 }}>
+          <Card
+            sx={{
+              backgroundColor: "transparent",
+              border: "1.5px solid rgba(0, 0, 0, 0.15)",
+              borderRadius: "12px",
+            }}
+          >
+            <CardContent>
+              <Typography variant="h5" mb={2}>
+                Service Distribution
+              </Typography>
+              <Box sx={{ width: "100%", height: 430 }}>
+                <MyPie />
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+
+        {/* Insight Card */}
+        <Box sx={{ flex: 1 }}>
+          <Card
+            sx={{
+              backgroundColor: "transparent",
+              border: "1.5px solid rgba(0, 0, 0, 0.15)",
+              borderRadius: "12px",
+              boxShadow: "0px 6px 20px rgba(0, 0, 0, 0.12)",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Typography
+              variant="h5"
+              m={2}
+              mb={5}
+              sx={{
+                fontWeight: 600,
+              }}
+            >
+              💡 Top 5 Services (Revenue)
             </Typography>
 
-            {/* Line Chart */}
-            <Box sx={{ height: 400, width: "100%", mb: 15 }}>
-              <MyLine />
-            </Box>
-
-            {/* Bar & Pie Side by Side */}
-            <Box sx={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <Box sx={{ flex: 1, minWidth: 300 }}>
-                <Typography variant="subtitle1" mb={1}>
-                  Category Overview
-                </Typography>
-                <Box sx={{ height: 300 }}>
-                  <MyBar />
+            {[...mockPieData]
+              .sort((a, b) => b.value - a.value)
+              .slice(0,5)
+              .map((item, index) => (
+                <Box
+                  key={item.id}
+                  sx={{
+                    width: "300px", 
+                    mx: "auto", 
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    backgroundColor: "#ffffffcc",
+                    p: 2,
+                    mb: 4,
+                    borderRadius: "10px",
+                    boxShadow: "0px 2px 6px rgba(0,0,0,0.05)",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: 500, color: "#333" }}
+                  >
+                    {index + 1}. {item.label}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ fontWeight: "bold", color: "#222" }}
+                  >
+                    ₹{item.value.toLocaleString()}
+                  </Typography>
                 </Box>
-              </Box>
-
-              <Box sx={{ flex: 1, minWidth: 300 }}>
-                <Typography variant="subtitle1" mb={1}>
-                  Service Distribution
-                </Typography>
-                <Box sx={{ height: 300 }}>
-                  <MyPie />
-                </Box>
-              </Box>
-            </Box>
-          </CardContent>
-        </Card>
+              ))}
+          </Card>
+        </Box>
       </Box>
     </Box>
   );

@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 	private final ModelMapper userMapper;
-	private final AppUserRepository appUserRepository;
-	private final PasswordEncoder passwordEncoder;
+	//private final AppUserRepository appUserRepository;
+	//private final PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserResponseDto registerUser(UserRequestDto dto) {
@@ -41,16 +41,16 @@ public class UserServiceImpl implements UserService {
 		}
 		User newUser = userMapper.map(dto, User.class);
 
-		newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+		//newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
 		newUser.setVerified(false);
 		newUser.setDeleted(false);
 
 		User savedUser = userRepository.save(newUser);
+//
+//		AppUser appUser = AppUser.builder().email(savedUser.getEmail()).password(savedUser.getPassword())
+//				.role(Role.USER).referenceId(savedUser.getId()).entityType("USER").build();
 
-		AppUser appUser = AppUser.builder().email(savedUser.getEmail()).password(savedUser.getPassword())
-				.role(Role.USER).referenceId(savedUser.getId()).entityType("USER").build();
-
-		appUserRepository.save(appUser);
+	//	appUserRepository.save(appUser);
 
 		return userMapper.map(savedUser, UserResponseDto.class);
 	}

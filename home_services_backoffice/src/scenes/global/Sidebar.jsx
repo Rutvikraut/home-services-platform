@@ -192,14 +192,7 @@ const Sidebar = () => {
                 isCollapsed={isCollapsed}
               />
             </SubMenu>
-            <Item
-              title="Profile"
-              to="/profile"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              isCollapsed={isCollapsed}
-            />
+           
             <Item
               title="Logout"
               to="/logout"

@@ -37,8 +37,8 @@ public class PartnerServiceImpl implements PartnerService {
 	private final PartnerRepository partnerRepository;
 	private final CategoryRepository categoryRepository;
 	private final OrderRepository orderRepository;
-	private final AppUserRepository appUserRepository;
-	private final PasswordEncoder passwordEncoder;
+	//private final AppUserRepository appUserRepository;
+	//private final PasswordEncoder passwordEncoder;
 	private ModelMapper mapper;
 
 	@Override
@@ -53,14 +53,14 @@ public class PartnerServiceImpl implements PartnerService {
 		}
 
 		Partner partner = mapper.map(partnerreq, Partner.class);
-		String encodedPassowrd = passwordEncoder.encode(partner.getPassword());
-		partner.setPassword(encodedPassowrd);
+		//String encodedPassowrd = passwordEncoder.encode(partner.getPassword());
+		//.setPassword(encodedPassowrd);
 
-		Partner savedPartner = partnerRepository.save(partner);
-		AppUser appUser = AppUser.builder().email(savedPartner.getEmail()).password(savedPartner.getPassword())
-
-				.role(Role.PARTNER).referenceId(savedPartner.getId()).entityType("PARTNER").build();
-		appUserRepository.save(appUser);
+	Partner savedPartner = partnerRepository.save(partner);
+//		AppUser appUser = AppUser.builder().email(savedPartner.getEmail()).password(savedPartner.getPassword())
+//
+//				.role(Role.PARTNER).referenceId(savedPartner.getId()).entityType("PARTNER").build();
+//		appUserRepository.save(appUser);
 
 		return new ApiResponse("Partner Added with Id " + savedPartner.getId());
 
