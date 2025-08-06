@@ -21,12 +21,23 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfiguration {
 
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable()) // ✅ New style for disabling CSRF
-            .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()
-            );
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		return http.cors(cors -> cors.configurationSource(corsConfigurationSource())).csrf(csrf -> csrf.disable())
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/auth/login", "/user/register", "/partner/register").permitAll()
+						 .requestMatchers(HttpMethod.PUT, "/partner/*/orders/*/status").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/partners/{partnerId}/orders/{orderId}/status").permitAll()
+						.requestMatchers(HttpMethod.GET, "/partner/**").permitAll()
+						.requestMatchers(HttpMethod.GET,
+                                "/categories",                  
+                                "/order/service",               
+                                "/categories/*/services"        
+                        ).permitAll()
+						.requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/partner/**").hasRole("PARTNER")
+						.requestMatchers("/user/**").hasRole("USER").anyRequest().authenticated())
+				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class).build();
+	}
 
         return http.build();
     }
