@@ -57,12 +57,34 @@ namespace Home_Service_Admin.Controllers
             return Content(result, "application/json");
         }
 
+        [HttpGet("partner/verified")]
+        public async Task<IActionResult> GetAllVerifiedPartner()
+        {
+            var result = await _springService.GetAllVerifiedPartnerAsync();
+            return Content(result, "application/json");
+        }
+
+        [HttpGet("partner/unverified")]
+        public async Task<IActionResult> GetAllUnverifiedPartner()
+        {
+            var result = await _springService.GetAllUnverfiedPartnerAsync();
+            return Content(result, "application/json");
+        }
+
         [HttpGet("partner")]
         public async Task<IActionResult> GetAllPartner()
         {
             var result = await _springService.GetAllPartnerAsync();
             return Content(result, "application/json");
         }
+
+        [HttpPut("partner/{partnerId}/orders/{orderId}")]
+        public async Task<IActionResult> AssignOrderToPartner(long partnerId, long orderId)
+        {
+            var result = await _springService.AssignOrderToPartner(partnerId, orderId);
+            return Content(result, "application/json");
+        }
+
     }
 
 }

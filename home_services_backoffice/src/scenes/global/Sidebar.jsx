@@ -12,6 +12,7 @@ import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
 import NewReleasesOutlinedIcon from "@mui/icons-material/NewReleasesOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 
 const Item = ({
   title,
@@ -124,7 +125,7 @@ const Sidebar = () => {
                   Admins
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                   <MenuOutlinedIcon sx={{ color: "#fff" }} />
+                  <MenuOutlinedIcon sx={{ color: "#fff" }} />
                 </IconButton>
               </Box>
             )}
@@ -170,6 +171,7 @@ const Sidebar = () => {
               setSelected={setSelected}
               isCollapsed={isCollapsed}
             />
+
             <SubMenu
               title="Manage Partners"
               icon={<PeopleOutlinedIcon />}
@@ -192,7 +194,24 @@ const Sidebar = () => {
                 isCollapsed={isCollapsed}
               />
             </SubMenu>
-           
+
+            <Item
+              title="Orders"
+              to="/orders"
+              icon={<ListAltOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              isCollapsed={isCollapsed}
+            />
+
+            <Item
+              title="Profile"
+              to="/profile"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              isCollapsed={isCollapsed}
+            />
             <Item
               title="Logout"
               to="/logout"

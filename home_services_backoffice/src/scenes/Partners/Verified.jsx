@@ -1,32 +1,45 @@
-import { Box, useTheme } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button } from "@mui/material";
 import { tokens } from "../../theme";
-
-import { mockDataTeam } from "../../data/mockData";
-
 import Header from "../../components/Header";
+import axios from "axios";
+import { getVerifiedPartners } from "../../api/Partner";
 
 const Partners = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [partners, setPartners] = useState([]);
+
+   useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const data = await getVerifiedPartners();
+        setPartners(data);
+      } catch (error) {
+        console.error("Failed to fetch verified partners", error);
+      }
+    };
+
+    fetchPartners();
+  }, []);
+
   const columns = [
-    { field: "id", headerName: "ID" },
+    // { field: "id", headerName: "ID" },
     {
-      field: "name",
-      headerName: "Name",
+      field: "firstName",
+      headerName: "firstName",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
+      field: "lastName",
+      headerName: "lastName",
+      flex: 1,
+      cellClassName: "name-column--cell",
     },
     {
-      field: "phone",
+      field: "phoneNumber",
       headerName: "Phone Number",
       flex: 1,
     },
@@ -41,26 +54,21 @@ const Partners = () => {
       flex: 1,
       sortable: false,
       disableColumnMenu: true,
-      renderCell: () => {
-        return (
-          <Box>
-            <Button variant="contained" color="error">
-              restrict access
-            </Button>
-          </Box>
-        );
-      },
+      renderCell: () => (
+        <Box>
+          <Button variant="contained" color="error">
+            RESTRICT ACCESS
+          </Button>
+        </Box>
+      ),
     },
   ];
 
   return (
     <Box m="20px">
-      <Header
-        title="PARTNERS"
-        subtitle="Managing the Partners and List of Partners"
-      />
+      <Header title="PARTNERS" subtitle="Managing the Partners and List of Partners" />
       <Box
-        m="40px 0 0 0 "
+        m="40px 0 0 0"
         height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
@@ -87,21 +95,19 @@ const Partners = () => {
             color: "#000",
             fontWeight: "bold",
           },
-          "& .MuiTablePagination-root, & .MuiTablePagination-selectLabel, & .MuiTablePagination-input, & .MuiTablePagination-actions":
-            {
-              color: "#000",
-            },
+          "& .MuiTablePagination-root, & .MuiTablePagination-selectLabel, & .MuiTablePagination-input, & .MuiTablePagination-actions": {
+            color: "#000",
+          },
           "& .MuiDataGrid-row:hover": {
             backgroundColor: `${colors.primary[500]} !important`,
             color: "#fff",
           },
-
           "& .MuiSvgIcon-root": {
             color: "#000 !important",
           },
         }}
       >
-        <DataGrid rows={mockDataTeam} columns={columns} />
+        <DataGrid rows={partners} columns={columns} pageSize={100} />
       </Box>
     </Box>
   );

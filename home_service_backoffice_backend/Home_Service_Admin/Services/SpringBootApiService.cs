@@ -90,7 +90,36 @@
             response.EnsureSuccessStatusCode();
             return body;
         }
+
+        public async Task<string> GetAllVerifiedPartnerAsync()
+        {
+            string url = "http://localhost:8080/partner/verified";
+            var response = await _httpClient.GetAsync(url);
+            string body = await response.Content.ReadAsStringAsync();
+            response.EnsureSuccessStatusCode();
+            return body;
+        }
+
+        // get Unverified partner
+        public async Task<string> GetAllUnverfiedPartnerAsync()
+        {
+            string url = "http://localhost:8080/partner/unverified";
+            var response = await _httpClient.GetAsync(url);
+            string body = await response.Content.ReadAsStringAsync();
+            response.EnsureSuccessStatusCode();
+            return body;
+        }
+
+
         //Assign Partners(End)
+        public async Task<string> AssignOrderToPartner(long partnerId, long orderId)
+        {
+            Console.WriteLine(partnerId.ToString(), orderId);
+            string url = $"http://localhost:8080/partner/{partnerId}/orders/{orderId}";
+            var response = await _httpClient.PutAsync(url, null); 
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
+        }
         //Restrict Partner
 
     }

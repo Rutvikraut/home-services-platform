@@ -16,9 +16,9 @@ const ServiceListings = () => {
       try {
         let res;
         if (categoryId === undefined) {
-          res = await getServicesByCategoryId(1);
+          res = await getServicesByCategoryId(1,user?.token);
         } else {
-          res = await getServicesByCategoryId(categoryId);
+          res = await getServicesByCategoryId(categoryId,user?.token);
         }
         setServices(res || []);
       } catch (err) {

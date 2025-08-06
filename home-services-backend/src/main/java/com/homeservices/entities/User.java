@@ -43,7 +43,7 @@ public class User extends BaseEntity {
 	private String password;
 	@Column(name = "profile_img")
 	private String profileImg;
-	@Column(name = "birth_date")
+	@Column(name = "birth_date",nullable=true)
 	private LocalDate birthDate;
 	@Column(name = "is_deleted")
 	private boolean isDeleted;

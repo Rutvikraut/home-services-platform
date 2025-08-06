@@ -5,9 +5,9 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { tokens } from "../../theme";
-import { mockDataTeam } from "../../data/mockData";
 
 import Header from "../../components/Header";
+import { getUnverifiedPartners, verifyPartner } from "../../api/Partner";
 
 const style = {
   position: "absolute",
@@ -20,27 +20,61 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
 const UnPartners = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [partners, setPartners] = React.useState([]);
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [selectedPartner, setSelectedPartner] = React.useState(null);
+
+  React.useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const data = await getUnverifiedPartners();
+        setPartners(data);
+      } catch (error) {
+        console.error("Failed to fetch unverified partners", error);
+      }
+    };
+    fetchPartners();
+  }, []);
+
+  const handleOpenModal = (partner) => {
+    setSelectedPartner(partner);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedPartner(null);
+  };
+
+  const handleVerify = async (partnerId) => {
+    try {
+      await verifyPartner(partnerId);
+      setPartners((prev) => prev.filter((p) => p.id !== partnerId));
+    } catch (error) {
+      console.error("Error verifying partner", error);
+    }
+  };
 
   const columns = [
-    { field: "id", headerName: "ID" },
+    // { field: "id", headerName: "ID" },
     {
-      field: "name",
-      headerName: "Name",
+      field: "firstName",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
+      field: "lastName",
+      headerName: "Last Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
     },
     {
-      field: "phone",
+      field: "phoneNumber",
       headerName: "Phone Number",
       flex: 1,
     },
@@ -55,49 +89,24 @@ const UnPartners = () => {
       flex: 1,
       sortable: false,
       disableColumnMenu: true,
-      renderCell: () => {
-        const [open, setOpen] = React.useState(false);
-        const handleOpen = () => setOpen(true);
-        const handleClose = () => setOpen(false);
-        return (
-          <Box sx={{ display: "flex", m: "10px", gap: "10px" }}>
-            <Button onClick={handleOpen} variant="contained" color="info">
-              View
-            </Button>
-
-            <Button variant="contained" color="success">
-              Verify
-            </Button>
-            <Button variant="contained" color="error">
-              Reject
-            </Button>
-
-            <div>
-              <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                  >
-                    partners
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    This is a modal to view partner details. You can add more
-                    information here about the partner, such as their address,
-                    business type, or any other relevant details.
-                  </Typography>
-                </Box>
-              </Modal>
-            </div>
-          </Box>
-        );
-      },
+      renderCell: (params) => (
+        <Box sx={{ display: "flex", m: "10px", gap: "10px" }}>
+          <Button
+            onClick={() => handleOpenModal(params.row)}
+            variant="contained"
+            color="info"
+          >
+            View
+          </Button>
+          <Button
+            onClick={() => handleVerify(params.row.id)}
+            variant="contained"
+            color="success"
+          >
+            Verify
+          </Button>
+        </Box>
+      ),
     },
   ];
 
@@ -108,7 +117,7 @@ const UnPartners = () => {
         subtitle="Managing the Partners and List of Partners"
       />
       <Box
-        m="40px 0 0 0 "
+        m="40px 0 0 0"
         height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
@@ -143,14 +152,34 @@ const UnPartners = () => {
             backgroundColor: `${colors.primary[500]} !important`,
             color: "#fff",
           },
-
           "& .MuiSvgIcon-root": {
             color: "#000 !important",
           },
         }}
       >
-        <DataGrid rows={mockDataTeam} columns={columns} />
+        <DataGrid rows={partners} columns={columns} />
       </Box>
+
+      {/* Modal for partner view */}
+      <Modal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Partner Details
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {selectedPartner
+              ? `Name: ${selectedPartner.firstName} ${selectedPartner.lastName}
+Phone: ${selectedPartner.phoneNumber}
+Email: ${selectedPartner.email}`
+              : "No partner selected"}
+          </Typography>
+        </Box>
+      </Modal>
     </Box>
   );
 };

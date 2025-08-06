@@ -26,6 +26,9 @@ public class SecurityConfiguration {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/auth/login", "/user/register", "/partner/register").permitAll()
+						.requestMatchers("/api/admin/**").permitAll()
+						.requestMatchers("/partner/**").permitAll()
+						.requestMatchers("/order/**").permitAll()
 						 .requestMatchers(HttpMethod.PUT, "/partner/*/orders/*/status").permitAll()
 						.requestMatchers(HttpMethod.PUT, "/partners/{partnerId}/orders/{orderId}/status").permitAll()
 						.requestMatchers(HttpMethod.GET, "/partner/**").permitAll()
@@ -34,7 +37,8 @@ public class SecurityConfiguration {
                                 "/order/service",               
                                 "/categories/*/services"        
                         ).permitAll()
-						.requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/partner/**").hasRole("PARTNER")
+//						.requestMatchers("/admin/**").hasRole("ADMIN")
+//						.requestMatchers("/partner/**").hasRole("PARTNER")
 						.requestMatchers("/user/**").hasRole("USER").anyRequest().authenticated())
 				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}

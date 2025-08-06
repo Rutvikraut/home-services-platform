@@ -8,6 +8,17 @@ namespace Home_Service_Admin
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173") // or whatever your React app origin is
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -52,6 +63,8 @@ namespace Home_Service_Admin
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowFrontend");
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -10,6 +10,7 @@ import Profile from "./scenes/Profile";
 import Login from "./Auth/Login";
 import Layout from "./Layout/Layout";
 import { useEffect, useState } from "react";
+import OrderList from "./scenes/Orders/OrderList";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -48,6 +49,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/partners/Verified" element={<Partners />} />
               <Route path="/partners/Unverified" element={<UnPartners />} />
+              <Route path="/orders" element={<OrderList />} />
               <Route path="/profile" element={<Profile />} />
               <Route
                 path="/logout"
