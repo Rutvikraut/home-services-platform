@@ -61,9 +61,14 @@ export const getUnverifiedPartners = async () => {
 };
 
 // Get partner by ID
-export const getPartnerById = async (partnerId) => {
+export const getPartnerById = async (partnerId,token) => {
   try {
-    const response = await axios.get(GET_PARTNER_BY_ID(partnerId));
+    console.log("called")
+    const response = await axios.get(GET_PARTNER_BY_ID(partnerId),{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Failed to fetch partner:", error.response?.data || error.message);
@@ -94,9 +99,13 @@ export const deletePartner = async (partnerId) => {
 };
 
 // Get partner's assigned orders
-export const getPartnerOrders = async (partnerId) => {
+export const getPartnerOrders = async (partnerId,token) => {
   try {
-    const response = await axios.get(GET_PARTNER_ORDERS(partnerId));
+    const response = await axios.get(GET_PARTNER_ORDERS(partnerId),{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Failed to fetch partner orders:", error.response?.data || error.message);

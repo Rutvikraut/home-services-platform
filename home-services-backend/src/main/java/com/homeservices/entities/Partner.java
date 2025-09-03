@@ -40,8 +40,8 @@ public class Partner extends BaseEntity {
 	@Column(name = "is_verified")
 	private boolean isVerified;
 	private float rating;
-	@Column(name = "no_of_orders")
-	private int noOfOrders;
+	@Column(name = "no_of_bookings")
+	private int noOfBookings;
 	@Column(name = "total_earning")
 	private double totalEarning;
 	@Column(name = "is_deleted")
@@ -57,7 +57,7 @@ public class Partner extends BaseEntity {
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "partner_id")
-	private List<Order> myOrders = new ArrayList<>();
+	private List<Booking> myBookings = new ArrayList<>();
 
 	private boolean status = true;
 

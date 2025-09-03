@@ -41,7 +41,7 @@ const Bookings = () => {
 
   const handleCancelOrder = async (orderId) => {
     try {
-      await cancelOrder(orderId);
+      await cancelOrder(orderId,user.token);
       fetchbookings();
       toast.success("Order canceled successfully");
     } catch (error) {

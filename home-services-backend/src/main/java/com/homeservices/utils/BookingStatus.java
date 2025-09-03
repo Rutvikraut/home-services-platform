@@ -1,6 +1,6 @@
 package com.homeservices.utils;
 
-public enum OrderStatus {
+public enum BookingStatus {
 	PENDING,       // Waiting for partner assignment
     CONFIRMED,     // Accepted by partner
     INPROGRESS,   // Partner started job

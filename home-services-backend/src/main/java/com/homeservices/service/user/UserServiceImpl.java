@@ -94,14 +94,12 @@ public class UserServiceImpl implements UserService {
 		return new ApiResponse("user deleted");
 	}
 
-
-
 	@Override
 	public ChangePasswordDto updatePassword(Long userId , UpdatePasswordDto dto) {
 		   User user = userRepository.findByIdAndIsDeletedFalse(userId)
 				   .orElseThrow(()-> new ResourceNotFoundException("user not found "));
 		   user.setPassword(passwordEncoder.encode(dto.getPassword()));
-		   AppUser appUser = appUserRepository.findByReferenceId(userId).orElseThrow(()-> new ResourceNotFoundException("user not found "));
+		   AppUser appUser = appUserRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user not found "));
 		   appUser.setPassword(passwordEncoder.encode(dto.getPassword()));
 		   appUserRepository.save(appUser);
 		return userMapper.map(userRepository.save(user), ChangePasswordDto.class);

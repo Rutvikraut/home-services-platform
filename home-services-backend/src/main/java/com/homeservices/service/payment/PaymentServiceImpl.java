@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.homeservices.dao.OrderRepository;
+import com.homeservices.dao.BookingRepository;
 import com.homeservices.dto.request.PaymentVerificationDto;
-import com.homeservices.entities.Order;
-import com.homeservices.utils.OrderStatus;
+import com.homeservices.entities.Booking;
+import com.homeservices.utils.BookingStatus;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
 
-    private final OrderRepository orderRepo;
+    private final BookingRepository bookingRepo;
 
     @Value("${razorpay.secret.key}")
     private String secretKey;
@@ -35,11 +35,11 @@ public class PaymentServiceImpl implements PaymentService {
         String generatedSignature = generateSignature(data);
 
         if (generatedSignature.equals(dto.getRazorpaySignature())) {
-            Order order = orderRepo.findById(dto.getOrderId())
+            Booking booking = bookingRepo.findById(dto.getOrderId())
                     .orElseThrow(() -> new RuntimeException("Order not found"));
 
-            order.setOrderStatus(OrderStatus.PAID);
-            orderRepo.save(order);
+            booking.setBookingStatus(BookingStatus.PAID);
+            bookingRepo.save(booking);
             return true;
         }
 

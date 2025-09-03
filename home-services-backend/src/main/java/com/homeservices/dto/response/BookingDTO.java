@@ -1,5 +1,5 @@
 package com.homeservices.dto.response;
 
-public class OrderDTO {
+public class BookingDTO {
 
 }

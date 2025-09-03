@@ -40,5 +40,5 @@ public class ProvidedService extends BaseEntity{
 	private Category category;
 	@OneToMany(mappedBy = "service",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<Order> orders = new ArrayList<>();
+	private List<Booking> orders = new ArrayList<>();
 }

@@ -28,32 +28,32 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/service")
 public class ProvidedServiceController {
 	private final ProvidedServicesService servicesService; 
-//	GET /api/services - List all services 
+
 	@GetMapping
 	public ResponseEntity<?> getAllServices() {
 		return ResponseEntity.ok(servicesService.getAllServices());
 	}
-//	POST /api/services - Create a service  
+ 
 	@PostMapping
     public ResponseEntity<?> addNewService(ProvidedServiceRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(servicesService.addNewService(dto));
     }
+	
 	@PostMapping("/getByIds")
 	public ResponseEntity<List<ProvidedServiceResponseDTO>> getAllServicesByIds(@RequestBody List<Long> serviceIds) {
 		return ResponseEntity.ok(servicesService.getAllServicesByIds(serviceIds));
 	}
-//	GET /api/services/{id} - Get specific service 
+
 	@GetMapping(path = "/{serviceId}")
 	public ResponseEntity<?> getServiceById(@PathVariable Long serviceId){
 		return ResponseEntity.ok(servicesService.getServiceById(serviceId));
 	}
-	
-//	PUT /api/services/{id} - Update service  
+	  
 	@PutMapping(path = "/{serviceId}")
 	public ResponseEntity<?> updateService(@PathVariable Long serviceId,@RequestBody ProvidedServiceRequestDto dto){
 		return ResponseEntity.ok(servicesService.updateService(serviceId,dto));
 	}
-//	DELETE /api/services/{id} - Delete service 
+
 	@DeleteMapping(path = "/{serviceId}")
 	public ResponseEntity<?> deleteService(Long serviceId){
 		return ResponseEntity.ok(servicesService.deleteService(serviceId));

@@ -27,12 +27,13 @@ export default function PartnerDashboard() {
 
   useEffect(() => {
     fetchPartnerData();
-  }, []);
+  }, [partner?.id]);
 
   const fetchPartnerData = async () => {
     try {
-      const profile = await getPartnerById(partner.id);
-      const orders = await getPartnerOrders(partner.id);
+      const profile = await getPartnerById(partner.id,partner.token);
+      console.log(profile)
+      const orders = await getPartnerOrders(partner.id,partner.token);
       setPartnerProfile(profile);
       setOrders(orders);
       if (

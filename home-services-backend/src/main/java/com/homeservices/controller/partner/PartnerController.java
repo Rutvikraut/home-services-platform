@@ -42,68 +42,59 @@ public class PartnerController {
 		return ResponseEntity.ok(partnerService.getByVerificationStatusFalse());
 	}
 
-//	POST   /api/partners/register                → Register a new partner
 	@PostMapping("/register")
 	public ResponseEntity<?> addPartner(@RequestBody PartnerRequestDTO partnerDTO) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(partnerService.addPartner(partnerDTO));
 	}
 
-//	GET    /api/partners/{id}                    → Get partner profile
 	@GetMapping("/{partnerId}")
 	public ResponseEntity<?> getPartnerDetails(@PathVariable Long partnerId) {
 		return ResponseEntity.ok(partnerService.getPartner(partnerId));
 	}
 
-//	PUT    /api/partners/{id}                    → Update partner profile
 	@PutMapping("/{partnerId}")
 	public ResponseEntity<?> updatePartner(@PathVariable Long partnerId, @RequestBody UpdatePartnerDTO partnerDTO) {
 		return ResponseEntity.ok(partnerService.updatePartner(partnerId, partnerDTO));
 	}
 
-//	DELETE /api/partners/{id}                    → Soft-delete partner
 	@DeleteMapping("/{partnerId}")
 	public ResponseEntity<?> deletePartner(@PathVariable Long partnerId) {
 		return ResponseEntity.ok(partnerService.deletePartner(partnerId));
 	}
 
-//
-//	GET    /api/partners/{id}/orders             → Get partner’s assigned orders
-	@GetMapping("/{partnerId}/orders")
-	public ResponseEntity<?> getPartnerOrders(@PathVariable Long partnerId) {
-		return ResponseEntity.ok(partnerService.getPartnerOrders(partnerId));
+	@GetMapping("/{partnerId}/bookings")
+	public ResponseEntity<?> getPartnerBookings(@PathVariable Long partnerId) {
+		return ResponseEntity.ok(partnerService.getPartnerBookings(partnerId));
 	}
 
-//	GET    /api/partners/{id}/earnings           → Get partner’s total earnings
 	@GetMapping("/{partnerId}/earnings")
 	public ResponseEntity<?> getTotalEarning(@PathVariable Long partnerId) {
 		return ResponseEntity.ok(partnerService.getTotalEarning(partnerId));
 	}
 
-//	GET    /api/partners/{id}/services           → List services offered
 	@GetMapping("/{partnerId}/services")
 	public ResponseEntity<?> getPartnerServices(@PathVariable Long partnerId) {
 		return ResponseEntity.ok(partnerService.getPartnerServices(partnerId));
 	}
 
-//	PUT    /api/partners/{id}/verify             → Mark partner as verified
 	@PutMapping("/{partnerId}/verify")
 	public ResponseEntity<?> verifyPartner(@PathVariable Long partnerId) {
 		return ResponseEntity.ok(partnerService.verifyPartner(partnerId));
 	}
 
-	@PutMapping("/{partnerId}/orders/{orderId}")
-	public ResponseEntity<?> assignOrderToPartner(@PathVariable Long partnerId, @PathVariable Long orderId) {
-		return ResponseEntity.ok(partnerService.assignOrderToPartner(partnerId, orderId));
+	@PutMapping("/{partnerId}/bookings/{bookingId}")
+	public ResponseEntity<?> assignBookingToPartner(@PathVariable Long partnerId, @PathVariable Long bookingId) {
+		return ResponseEntity.ok(partnerService.assignBookingToPartner(partnerId, bookingId));
 	}
 
-	@PutMapping("/{partnerId}/orders/{orderId}/status/completed")
-	public ResponseEntity<?> updateOrderStatusCompleted(@PathVariable Long partnerId, @PathVariable Long orderId) {
-		return ResponseEntity.ok(partnerService.updateOrderStatusCompleted(partnerId, orderId));
+	@PutMapping("/{partnerId}/bookings/{bookingId}/status/completed")
+	public ResponseEntity<?> updateBookingStatusCompleted(@PathVariable Long partnerId, @PathVariable Long bookingId) {
+		return ResponseEntity.ok(partnerService.updateBookingStatusCompleted(partnerId, bookingId));
 	}
 	
-	@PutMapping("/{partnerId}/orders/{orderId}/status/inprogress")
-	public ResponseEntity<?> updateOrderStatusInProgress(@PathVariable Long partnerId, @PathVariable Long orderId) {
-		return ResponseEntity.ok(partnerService.updateOrderStatusInProgress(partnerId, orderId));
+	@PutMapping("/{partnerId}/bookings/{bookingId}/status/inprogress")
+	public ResponseEntity<?> updateBookingStatusInProgress(@PathVariable Long partnerId, @PathVariable Long bookingId) {
+		return ResponseEntity.ok(partnerService.updateBookingStatusInProgress(partnerId, bookingId));
 	}
 
 }

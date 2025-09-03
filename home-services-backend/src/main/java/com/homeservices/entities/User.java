@@ -65,7 +65,7 @@ public class User extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	@JsonIgnore
 	@JoinColumn(name = "user_id")
-	private List<Order> orders = new ArrayList<>();
+	private List<Booking> bookings = new ArrayList<>();
 
 
 

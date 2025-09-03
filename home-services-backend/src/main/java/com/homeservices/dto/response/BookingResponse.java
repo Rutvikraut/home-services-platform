@@ -3,23 +3,22 @@ package com.homeservices.dto.response;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.homeservices.utils.OrderStatus;
+import com.homeservices.entities.ProvidedService;
+import com.homeservices.entities.UserAddress;
+import com.homeservices.utils.BookingStatus;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
 @AllArgsConstructor
-public class PartnerOrderDTO {
+@Data
+public class BookingResponse {
 	public Long id;
 	public LocalDate serviceDate;
 	public LocalTime serviceTime;
 	public LocalDate completionDate;
-	public OrderStatus orderStatus;
+	public BookingStatus orderStatus;
 	public Double totalCost;
-	private String service;
-	private String address;
-
+	public String service;
+	public String address;
 }

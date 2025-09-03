@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.homeservices.utils.OrderStatus;
+import com.homeservices.utils.BookingStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,10 +23,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "Orders")
+@Table(name = "Bookings")
 @NoArgsConstructor
 @Data
-public class Order extends BaseEntity {
+public class Booking extends BaseEntity {
 	/**
 	 * 
 	 */
@@ -41,9 +41,9 @@ public class Order extends BaseEntity {
 	@Column(name = "completion_date")
 	private LocalDate completionDate;
 
-	@Column(name = "order_status")
+	@Column(name = "booking_status")
 	@Enumerated(EnumType.STRING)
-	private OrderStatus orderStatus;
+	private BookingStatus bookingStatus;
 	@Column(name = "total_cost")
 
 	private Double totalCost;

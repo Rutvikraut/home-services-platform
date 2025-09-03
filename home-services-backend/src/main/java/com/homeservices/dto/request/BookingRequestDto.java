@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.homeservices.entities.UserAddress;
 
-public record OrderRequestDto(
+public record BookingRequestDto(
 		List<Long> serviceIds,
 		LocalDate serviceDate,
 		LocalTime serviceTime,

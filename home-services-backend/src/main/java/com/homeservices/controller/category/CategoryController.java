@@ -29,20 +29,16 @@ import lombok.AllArgsConstructor;
 public class CategoryController {
 	private final CategoryService categoryService; 
 	
-//	GET/api/categories (List all categories)
 	@GetMapping
 	public ResponseEntity<?> getAllCategories() {
 		return ResponseEntity.ok(categoryService.getAllCategories());
 	}
 	
-	
-//	POST/api/categories (Create a category)
 	@PostMapping
     public ResponseEntity<?> addNewCategory(@RequestBody CategoryRequestDto dto) {
-//		String response = categoryService.addNewCategory(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.addNewCategory(dto));
     }
-//	GET/api/categories/{id}  (Get a specific category)
+
 	@GetMapping("/{categoryId}")
 	public ResponseEntity<?> getCategoryById(@PathVariable Long categoryId){
 		return ResponseEntity.ok(categoryService.getCategoryById(categoryId));
@@ -52,14 +48,13 @@ public class CategoryController {
 	public ResponseEntity<List<ProvidedService>> getServicesByCategoryId(@PathVariable Long categoryId){
 		return ResponseEntity.ok(categoryService.getServicesByCategoryId(categoryId));
 	}
-		
-//	PUT /api/categories/{id} - Update category  
+		 
 	@PutMapping("/{categoryId}")
 	public ResponseEntity<?> updateCategory(@PathVariable Long categoryId,@RequestBody CategoryRequestDto dto){
 		return ResponseEntity.ok(categoryService.updateCategory(categoryId,dto));
 	}
 	
-//	DELETE /api/categories/{id} - Delete category 
+
 	@DeleteMapping("/{categoryId}")
 	public ResponseEntity<?> deleteCategory(@PathVariable Long categoryId){
 		return ResponseEntity.ok(categoryService.deleteCatgory(categoryId));

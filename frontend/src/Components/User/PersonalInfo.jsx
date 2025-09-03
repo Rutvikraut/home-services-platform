@@ -6,22 +6,16 @@ import { useAuth } from "../../providers/AuthContext";
 import { UPDATE_USER } from "../../api/config";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useOutletContext } from "react-router-dom";
+import { getUserById } from "../../api/User";
 
 const PersonalInfo = () => {
-  const userDetails = useOutletContext();
-
   const { user, login } = useAuth();
-  const [formData, setFormData] = useState({ ...userDetails });
+  const [formData, setFormData] = useState(null);
   const [editable, setEditable] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleEditButton = () => {
     setEditable((prev) => !prev);
-    if (!editable) {
-      // Reset to latest user info on cancel
-      setFormData({ ...user });
-    }
   };
 
   const handleUpdateButton = async () => {
@@ -62,10 +56,19 @@ const PersonalInfo = () => {
   };
 
   useEffect(() => {
-    if (userDetails) {
-      setFormData({ ...userDetails });
-    }
-  }, [userDetails]);
+      const fetchUser = async () => {
+        if (!user?.id) return;
+        try {
+          const userData = await getUserById(user.id,user.token);
+          setFormData(userData);
+        } catch (err) {
+          console.error("Failed to fetch user:", err);
+          toast.error("Failed to fetched profile")
+        }
+      };
+  
+      fetchUser();
+    }, [user.id,user?.token]);
   if (!formData) return <p>Loading profile...</p>;
 
   return (
@@ -86,7 +89,7 @@ const PersonalInfo = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
           <input
             type="text"
-            value={formData.firstName}
+            value={formData.firstName || ""}
             readOnly={!editable}
             name="firstName"
             placeholder="First Name"
@@ -95,7 +98,7 @@ const PersonalInfo = () => {
           />
           <input
             type="text"
-            value={formData.lastName}
+            value={formData.lastName || ""}
             readOnly={!editable}
             name="lastName"
             placeholder="Last Name"
@@ -104,7 +107,7 @@ const PersonalInfo = () => {
           />
           <input
             type="email"
-            value={formData.email}
+            value={formData.email || ""}
             readOnly={!editable}
             name="email"
             placeholder="Email"
@@ -113,7 +116,7 @@ const PersonalInfo = () => {
           />
           <input
             type="tel"
-            value={formData.phone}
+            value={formData.phone || ""}
             readOnly={!editable}
             name="phone"
             placeholder="Phone"
@@ -123,7 +126,6 @@ const PersonalInfo = () => {
         </div>
       </div>
 
-      {/* Update Button */}
       <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3">
         <div className="mt-6 flex justify-end mr-2">
           <Button

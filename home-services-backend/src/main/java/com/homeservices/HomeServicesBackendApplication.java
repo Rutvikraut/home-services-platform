@@ -23,6 +23,4 @@ public class HomeServicesBackendApplication {
 		.setPropertyCondition(Conditions.isNotNull());
 		return mapper;
 	}
-	
-
 }

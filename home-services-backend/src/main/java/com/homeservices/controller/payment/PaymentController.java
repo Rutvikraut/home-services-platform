@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.homeservices.dto.request.PaymentVerificationDto;
-import com.homeservices.entities.Order;
+import com.homeservices.entities.Booking;
 import com.homeservices.service.partner.PartnerService;
 import com.homeservices.service.payment.PaymentService;
 import com.homeservices.service.payment.PaymentServiceImpl;
@@ -35,7 +35,7 @@ public class PaymentController {
             boolean verified = paymentService.verifyPayment(dto);
 
             if (verified) {
-                return ResponseEntity.ok("Payment verified and order updated.");
+                return ResponseEntity.ok("Payment verified and booking updated.");
             } else {
                 return ResponseEntity.badRequest().body("Invalid signature");
             }

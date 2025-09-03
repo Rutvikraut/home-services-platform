@@ -35,17 +35,17 @@ public class SecurityConfiguration {
 						.requestMatchers("/auth/login", "/user/register", "/partner/register").permitAll()
 						.requestMatchers("/api/admin/**").permitAll()
 						.requestMatchers("/partner/**").permitAll()
-						.requestMatchers("/order/**").permitAll()
+						.requestMatchers("/booking/**").permitAll()
 						.requestMatchers("/auth/**").permitAll()
 						.requestMatchers("/auth/reset-password").permitAll()
 						.requestMatchers(HttpMethod.GET, "/categories/*/partner").permitAll()
 						.requestMatchers("/categories/**").permitAll()
-						 .requestMatchers(HttpMethod.PUT, "/partner/*/orders/*/status").permitAll()
-						.requestMatchers(HttpMethod.PUT, "/partners/{partnerId}/orders/{orderId}/status").permitAll()
+						 .requestMatchers(HttpMethod.PUT, "/partner/*/bookings/*/status").permitAll()
+						.requestMatchers(HttpMethod.PUT, "/partners/{partnerId}/bookings/{bookingId}/status").permitAll()
 						.requestMatchers(HttpMethod.GET, "/partner/**").permitAll()
 						.requestMatchers(HttpMethod.GET,
                                 "/categories/**",                  
-                                "/order/service",               
+                                "/booking/service",               
                                 "/categories/*/services"        
                         ).permitAll()
 //						.requestMatchers("/admin/**").hasRole("ADMIN")

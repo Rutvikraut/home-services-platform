@@ -27,7 +27,7 @@
 
         public async Task<string> GetAllOrderAsync()
         {
-            string url = "http://localhost:8080/order";
+            string url = "http://localhost:8080/booking";
             var response = await _httpClient.GetAsync(url);
             string body = await response.Content.ReadAsStringAsync();
             response.EnsureSuccessStatusCode();
@@ -115,7 +115,7 @@
         public async Task<string> AssignOrderToPartner(long partnerId, long orderId)
         {
             Console.WriteLine(partnerId.ToString(), orderId);
-            string url = $"http://localhost:8080/partner/{partnerId}/orders/{orderId}";
+            string url = $"http://localhost:8080/partner/{partnerId}/bookings/{orderId}";
             var response = await _httpClient.PutAsync(url, null); 
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
